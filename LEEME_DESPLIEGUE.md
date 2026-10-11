@@ -1,48 +1,21 @@
-# PWA Matemáticas · IES La Laboral
+# PWA generadora de cuadernillos · IES La Laboral
 
-**Estado:** prototipo v0.1 · curso 2026–2027 · no aprobado como herramienta institucional.
+**Versión 0.4 · Groq (modalidad gratuita con límites)**. Código preparado; **no desplegado ni probado con una clave real**. No se garantiza gratuidad ilimitada ni disponibilidad permanente del plan gratuito.
 
-## Qué hace
+## Instalación en el GitHub y Vercel ya existentes
 
-- Portada y navegación adaptadas a móviles.
-- Editor de situaciones de aprendizaje por sentidos matemáticos.
-- Registro de evidencias con criterio, producto e instrumento.
-- Matrices criterio → evidencia y producto → criterio.
-- Alertas de criterios registrados sin evidencia.
-- Planes de refuerzo vinculados a dificultades y nuevas evidencias.
-- Exportación/importación JSON, impresión a PDF desde el navegador.
-- Manifest y service worker para instalación y uso básico sin conexión tras la primera visita.
+1. Descomprimir el ZIP. Subir a la raíz del repositorio los archivos `index.html`, `styles.css`, `app.js`, `manifest.webmanifest`, `sw.js` y la carpeta `api/generate.js`, conservando las rutas. El repositorio es público: **nunca subir claves**.
+2. En GroqCloud, crear una clave API en la modalidad gratuita disponible, **sin activar facturación de pago**. Revisar las condiciones vigentes del proveedor, especialmente privacidad y límites.
+3. En Vercel > proyecto > Settings > Environment Variables, añadir `GROQ_API_KEY` con esa clave, y `GENERATOR_ACCESS_CODE` con un código largo privado para los docentes. Opcional: `GROQ_MODEL` (por defecto `llama-3.3-70b-versatile`; sujeto a disponibilidad). No configurar `OPENAI_API_KEY`.
+4. Volver a desplegar en Vercel. Probar primero con una situación ficticia sin datos personales y 3-4 sesiones. Si el proveedor devuelve error por límite de uso, esperar o usar «Generar borrador sin IA».
+5. Revisar todos los cálculos, soluciones, criterios, correspondencia de evidencias e instrumentos y la adecuación didáctica. El cuadernillo se imprime/guarda como PDF desde el navegador; el solucionario docente se descarga por separado.
 
-## Publicar en Vercel
+## Límites y protección
 
-1. Descomprime el ZIP. Dentro verás `index.html`, `app.js`, `styles.css`, `manifest.webmanifest`, `sw.js`, `vercel.json` y `icons/`.
-2. En GitHub, crea un repositorio **privado** y sube **el contenido de la carpeta**, conservando los archivos en la raíz del repositorio.
-3. Accede a https://vercel.com/new, inicia sesión y elige **Import Git Repository**. Autoriza GitHub si te lo solicita y selecciona el repositorio.
-4. En **Framework Preset** elige **Other** (sitio estático). No se necesita comando de compilación; deja **Build Command** vacío y **Output Directory** sin definir. Pulsa **Deploy**.
-5. Vercel proporcionará una dirección `https://...vercel.app`. Ábrela en un navegador.
-6. En Android (Chrome), usa el menú del navegador > **Instalar aplicación** o **Añadir a pantalla de inicio**. En iPhone (Safari), menú Compartir > **Añadir a pantalla de inicio**. La instalación depende del navegador y del sistema operativo.
-
-**Importante:** el repositorio privado no convierte automáticamente la URL publicada en privada. No subas documentos sensibles ni datos personales.
-
-## Pruebas recomendadas
-
-- Abrir en ordenador y móvil.
-- Crear situación con códigos de prueba (no usar códigos ficticios como oficiales).
-- Crear una evidencia vinculada a un criterio y comprobar las dos matrices.
-- Crear un plan de refuerzo y cerrarlo.
-- Descargar una copia JSON, importarla en otro navegador y comprobar los datos.
-- Tras la primera carga, desconectar Internet y volver a abrir la aplicación para comprobar la caché local.
-- Verificar la instalación PWA en el navegador elegido.
-
-## Límites y seguridad
-
-- Los datos se guardan en `localStorage` del navegador. **No hay cuentas, servidor, sincronización, copias automáticas ni control de acceso**.
-- Cada docente tendrá sus propios datos; el enlace no comparte las fichas creadas.
-- No introducir nombres, calificaciones, expedientes ni información personal del alumnado.
-- No hay integración con Moodle ni Google Drive, ni consulta curricular automática.
-- Los documentos oficiales y acuerdos deben verificarse y aprobarse por los órganos correspondientes.
-- Antes de usarla como aplicación institucional hay que estudiar alojamiento, condiciones de servicio, accesibilidad, protección de datos, autenticación y almacenamiento autorizado.
-
-## Actualizaciones
-
-Modifica los archivos del repositorio; Vercel volverá a desplegar la versión actualizada. Si se cambia la lógica de caché del service worker, incrementa el nombre `CACHE` en `sw.js`.
+- El profesorado **no necesita cuenta ni clave de API propia**; usa un código de acceso compartido. El administrador debe crear la cuenta gratuita del proveedor y mantener su clave privada en Vercel.
+- Un plan gratuito **puede limitar solicitudes y tokens**, rechazar generaciones extensas o cambiar sus condiciones. No hay promesa de servicio gratuito ilimitado. El código de acceso compartido no constituye autenticación fuerte ni una cuota por docente. Antes de abrir a un grupo amplio conviene añadir control de acceso y límites de solicitudes.
+- No se introducen **nunca datos personales** ni información interna sensible en las plantillas. La aplicación envía el contenido curricular a Groq para generar el texto: verificar la política del proveedor y la autorización institucional antes del uso ordinario.
+- La importación automática admite DOCX, TXT, MD y JSON; no PDF directamente. La lectura DOCX requiere una biblioteca externa. La extracción es orientativa.
+- La IA produce un borrador: puede equivocarse en cálculos, no justificar correctamente un criterio o dejar secciones incompletas. Los criterios que no coincidan exactamente con los transcritos en la plantilla se marcan «PENDIENTE DE VALIDACIÓN».
+- EVAGD: genera textos de tareas para copiar, no publica automáticamente.
+- **No se ha verificado todavía un despliegue ni una generación real**.
